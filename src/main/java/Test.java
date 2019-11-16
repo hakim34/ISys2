@@ -11,7 +11,7 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
         System.out.println("Hello World");
-        String csvFile = "/Users/hakim.id/Documents/ISys2/src/main/resources/labels0.csv";
+        String csvFile = "src/main/resources/labels0.csv";
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -57,16 +57,6 @@ public class Test {
                 }
             }
             System.out.println(closestDistance);
-
-
-
-
-
-
-
-
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
