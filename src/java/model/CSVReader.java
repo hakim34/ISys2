@@ -18,8 +18,8 @@ public class CSVReader {
     private Set<Point> labels = new HashSet<>();
 
     /**
-     * A 2d array of doubles of the data.
-     * The value is a height point.
+     * A 2d array of doubles of the height data.
+     * The values are height points.
      * The inner arrays represent the data of a ring. [y]
      * The outer arrays represent the rings along the length of the rostrum. [x]
      */
