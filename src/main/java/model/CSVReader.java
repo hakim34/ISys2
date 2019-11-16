@@ -4,8 +4,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,7 +15,7 @@ import java.util.stream.Stream;
 public class CSVReader {
 
     /** List of all the labels */
-    private List<Point> labels = new ArrayList<>();
+    private Set<Point> labels = new HashSet<>();
 
     /**
      * A 2d array of doubles of the data.
@@ -70,7 +69,7 @@ public class CSVReader {
      * Getter for the list containing the labels
      * @return  The list containing the labels
      */
-    public List<Point> getLabels() {
+    public Set<Point> getLabels() {
         return labels;
     }
 
