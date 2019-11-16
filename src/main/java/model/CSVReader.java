@@ -1,26 +1,84 @@
 package model;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+/**
+ * This class reads the required csv files and fills the corresponding data structures or later use elsewhere
+ */
 public class CSVReader {
 
     /** List of all the labels */
-    List<Point> labels = new ArrayList<>();
+    private List<Point> labels = new ArrayList<>();
 
-    /** A 2d array of double of the data. The outer array contains each a row of height points.  */
-    Double[][] data = new Double[][]{};
+    /**
+     * A 2d array of doubles of the data.
+     * The value is a height point.
+     * The inner arrays represent the data of a ring. [y]
+     * The outer arrays represent the rings along the length of the rostrum. [x]
+     */
+    private List<List<Double>> data = new ArrayList<>();
 
-    Character csvSplitBy = ',';
+    /** The character used to split the csv data points */
+    private String csvSplitBy = ",";
 
+    /**
+     * Creates a new CSVReader instance without any data
+     */
     public CSVReader() {}
 
-    public CSVReader labels(String filePath) {
+    /**
+     * Reads the labels from a provided csv file and fills the corresponding data structure
+     * @param filePath  Path to the csv file containing the labels
+     * @return          This object with the updated data
+     * @throws IOException
+     */
+    public CSVReader labels(String filePath) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        while ((line = br.readLine()) != null) {
+            int[] coordinate = Arrays.stream(line.split(csvSplitBy)).mapToInt(Integer::parseInt).toArray();
+            labels.add(new Point(coordinate[0], coordinate[1]));
+        }
         return this;
     }
 
-    public CSVReader data(String filePath) {
+    /**
+     * Reads the data from a provided csv file and fills the corresponding data structure
+     * @param filePath  Path to the csv file containing the labels
+     * @return          This object with the updated data
+     * @throws IOException
+     */
+    public CSVReader data(String filePath) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        while ((line = br.readLine()) != null) {
+            List<Double> points = Stream.of(line.split(csvSplitBy)).map(Double::valueOf).collect(Collectors.toList());
+            data.add(points);
+        }
         return this;
+    }
+
+    /**
+     * Getter for the list containing the labels
+     * @return  The list containing the labels
+     */
+    public List<Point> getLabels() {
+        return labels;
+    }
+
+    /**
+     * Getter for the 2d array containing the raw data
+     * @return  The 2d array containing the raw data
+     */
+    public List<List<Double>> getData() {
+        return data;
     }
 }
