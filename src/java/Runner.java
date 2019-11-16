@@ -7,6 +7,7 @@ import java.io.IOException;
 public class Runner {
 
     public static void main(String[] args) throws IOException {
+
         CSVReader csv = new CSVReader().labels("src/resources/labels0.csv").data("src/resources/data0.csv");
         TeethFinder finder = new TeethFinder(csv.getData()).find();
         //System.out.println(finder.getFoundTeeth().size());
