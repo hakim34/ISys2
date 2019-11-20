@@ -13,8 +13,32 @@ public class Climber {
      */
     private List<List<Double>> data;
 
+    /** Holds the total walked distance during a single climb */
+    private int totalDistance;
+
+    /** Holds the total height difference during a single climb */
+    private double totalHeightDifference;
+
     public Climber(List<List<Double>> data) {
         this.data = data;
+    }
+
+    public Point start(Point start) {
+        totalHeightDifference = 0;
+        totalDistance = -1;
+        return findPeak(start);
+    }
+
+    public int getTotalDistance() {
+        return totalDistance;
+    }
+
+    public double getTotalHeightDifference() {
+        return totalHeightDifference;
+    }
+
+    public double getAngle() {
+        return Math.toDegrees(Math.atan(totalHeightDifference / totalDistance));
     }
 
     /**
@@ -22,7 +46,7 @@ public class Climber {
      * @param start The starting point for the search.
      * @return      The point of the local peak.
      */
-    public Point findPeak(Point start) {
+    private Point findPeak(Point start) {
         double maxHeightDifference = 0;
         Point maxPoint = start;
 
@@ -61,7 +85,8 @@ public class Climber {
                 maxPoint = new Point(start.x + 1, start.y);
             }
         }
-
+        totalDistance++;
+        totalHeightDifference = totalHeightDifference + maxHeightDifference;
         return maxPoint == start ? start : findPeak(maxPoint);
     }
 

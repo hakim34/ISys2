@@ -39,12 +39,13 @@ public class TeethFinder {
         Climber climber = new Climber(data);
         for (int i = 0; i < data.size(); i = i + searchDistance) {
             for (int j = 0; j < data.get(i).size(); j = j + searchDistance) {
-                Point p = climber.findPeak(new Point(i, j));
+                Point p = climber.start(new Point(i, j));
                 if (foundTeeth.stream().noneMatch(f ->
                         f.x - p.x > -1 * searchDistance
                      && f.x - p.x < searchDistance
                      && f.y - p.y > -1 * searchDistance
-                     && f.y - p.y < searchDistance)) {
+                     && f.y - p.y < searchDistance)
+                && climber.getAngle() > 30) {
                     foundTeeth.add(p);
                 }
             }
