@@ -13,8 +13,15 @@ public class Runner {
         //System.out.println(finder.getFoundTeeth().size());
         //System.out.println(finder.getFoundTeeth());
         Evaluator e = new Evaluator(csv.getLabels(), finder.getFoundTeeth());
-        System.out.println(e.getPrecision());
-        System.out.println(e.getRecall());
-        System.out.println(e.getfScore());
+        System.out.println("Precision               : " + e.getPrecision());
+        System.out.println("Recall                  : " + e.getRecall());
+        System.out.println("FScore                  : " + e.getfScore());
+
+        System.out.println("Number of labels        : " + e.numberOfLables());
+        System.out.println("Number of found teeth   : " + e.numberOfFoundTeeth());
+        System.out.println("Number of correct teeth : " + e.numberOfCorrectTeeth());
+
+        System.out.println("Number of rows          : " + csv.getRowNumbers());
+        System.out.println("Number of columns       : " + csv.getColumnNumbers());
     }
 }

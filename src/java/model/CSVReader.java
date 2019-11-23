@@ -37,7 +37,7 @@ public class CSVReader {
      * Reads the labels from a provided csv file and fills the corresponding data structure
      * @param filePath  Path to the csv file containing the labels
      * @return          This object with the updated data
-     * @throws IOException
+     * @throws IOException In case file doesn't exist
      */
     public CSVReader labels(String filePath) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -53,7 +53,7 @@ public class CSVReader {
      * Reads the data from a provided csv file and fills the corresponding data structure
      * @param filePath  Path to the csv file containing the labels
      * @return          This object with the updated data
-     * @throws IOException
+     * @throws IOException In case file doesn't exist
      */
     public CSVReader data(String filePath) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -88,5 +88,13 @@ public class CSVReader {
      */
     public List<List<Double>> getData() {
         return data;
+    }
+
+    public int getRowNumbers() {
+        return data.size();
+    }
+
+    public int getColumnNumbers() {
+        return data.get(0).size();
     }
 }
