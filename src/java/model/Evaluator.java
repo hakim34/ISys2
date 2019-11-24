@@ -55,7 +55,7 @@ public class Evaluator {
         double ac = Math.abs(a.x - b.x);
         double cb = Math.abs(a.y - b.y);
 
-        double tolerance = 5.0;
+        double tolerance = 10.0;
         return Math.hypot(ac, cb) < tolerance;
     }
 

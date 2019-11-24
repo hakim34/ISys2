@@ -3,7 +3,7 @@ package model;
 import java.awt.*;
 import java.util.List;
 
-public class Climber {
+class Climber {
 
     /**
      * A 2d array of doubles of the height data.
@@ -13,81 +13,79 @@ public class Climber {
      */
     private List<List<Double>> data;
 
-    /** Holds the total walked distance during a single climb */
-    private int totalDistance;
+    /* the local maximum found */
+    private Point peak;
 
-    /** Holds the total height difference during a single climb */
-    private double totalHeightDifference;
-
-    public Climber(List<List<Double>> data) {
+    Climber(List<List<Double>> data) {
         this.data = data;
     }
 
-    public Point start(Point start) {
-        totalHeightDifference = 0;
-        totalDistance = -1;
-        return findPeak(start);
-    }
-
-    public int getTotalDistance() {
-        return totalDistance;
-    }
-
-    public double getTotalHeightDifference() {
-        return totalHeightDifference;
-    }
-
-    public double getAngle() {
-        return Math.toDegrees(Math.atan(totalHeightDifference / totalDistance));
+    Point start(Point start) {
+        peak = findMaximum(start);
+        return peak;
     }
 
     /**
-     * Finds the local peak starting the search at the given point.
-     * @param start The starting point for the search.
-     * @return      The point of the local peak.
+     * Gets the angle of peak adjacent to y-axis of the peak.
+     * @param x the point of supposedly the perimeter of the smallest teeth
+     * @return the sharpness of the teeth in respective to the perimeter of the teeth.
      */
-    private Point findPeak(Point start) {
-        double maxHeightDifference = 0;
-        Point maxPoint = start;
+    private double getSharpness(Point x) {
+        double ac = Math.abs(x.x - peak.x);
+        double cb = Math.abs(x.y - peak.y);
+        return Math.toDegrees(Math.atan(Math.hypot(ac, cb)/Math.abs(getHeightForPoint(peak)-getHeightForPoint(x))));
+    }
 
-        // Look up
-        if (start.x > 0) {
-            double heightDifference = getHeight(start.x - 1, start.y) - getHeightForPoint(maxPoint);
-            if (heightDifference > maxHeightDifference) {
-                maxHeightDifference = heightDifference;
-                maxPoint = new Point(start.x - 1, start.y);
+    /**
+     * Gets the average angle of the peak with respect to the (if applicable) four-way points in its surroundings
+     * @return average angle.
+     */
+    double getSharpness() {
+        int distance = 10;
+        int i = 0;
+
+        Point point1 = new Point(peak.x-distance, peak.y-distance);
+        Point point2 = new Point(peak.x+distance, peak.y-distance);
+        Point point3 = new Point(peak.x-distance, peak.y+distance);
+        Point point4 = new Point(peak.x+distance, peak.y+distance);
+
+        if(getSharpness(point1) != 0) i++;
+        if(getSharpness(point2) != 0) i++;
+        if(getSharpness(point3) != 0) i++;
+        if(getSharpness(point4) != 0) i++;
+
+        return (getSharpness(point1) +
+                getSharpness(point2) +
+                getSharpness(point3) +
+                getSharpness(point4))/i;
+    }
+
+    /**
+     * Finds local maximum using the mountain climber algorithm.
+     * @param startingPoint for the mountain climber.
+     * @return the point where the local maximum is located.
+     */
+    private Point findMaximum(Point startingPoint) {
+        int x = startingPoint.x;
+        int y = startingPoint.y;
+
+        int startPosX = (x - 1 < 0) ? x : x-1;
+        int startPosY = (y - 1 < 0) ? y : y-1;
+        int endPosX =   (x + 1 > data.size() -1) ? x : x+1;
+        int endPosY =   (y + 1 > data.get(0).size() - 1) ? y : y+1;
+
+        double maximum = data.get(x).get(y);
+        Point oldCoordinate = new Point(x, y); //starts in the middle
+        Point coordinate =  new Point(x, y); //starts in the middle
+        for (int rowNum=startPosX; rowNum<=endPosX; rowNum++) {
+            for (int colNum=startPosY; colNum<=endPosY; colNum++) {
+                if(maximum <= data.get(rowNum).get(colNum)) {
+                    maximum = data.get(rowNum).get(colNum);
+                    coordinate.setLocation(rowNum, colNum);
+                }
             }
         }
-
-        // Look left
-        if (start.y > 0) {
-            double heightDifference = getHeight(start.x, start.y - 1) - getHeightForPoint(maxPoint);
-            if (heightDifference > maxHeightDifference) {
-                maxHeightDifference = heightDifference;
-                maxPoint = new Point(start.x, start.y - 1);
-            }
-        }
-
-        // Look right
-        if (start.y + 1 < data.get(start.x).size()) {
-            double heightDifference = getHeight(start.x, start.y + 1) - getHeightForPoint(maxPoint);
-            if (heightDifference > maxHeightDifference) {
-                maxHeightDifference = heightDifference;
-                maxPoint = new Point(start.x, start.y + 1);
-            }
-        }
-
-        // Look down
-        if (start.x + 1 < data.size()) {
-            double heightDifference = getHeight(start.x + 1, start.y) - getHeightForPoint(maxPoint);
-            if (heightDifference > maxHeightDifference) {
-                maxHeightDifference = heightDifference;
-                maxPoint = new Point(start.x + 1, start.y);
-            }
-        }
-        totalDistance++;
-        totalHeightDifference = totalHeightDifference + maxHeightDifference;
-        return maxPoint == start ? start : findPeak(maxPoint);
+        return coordinate.equals(oldCoordinate) ? coordinate : findMaximum(coordinate);
     }
 
     /**
@@ -96,16 +94,9 @@ public class Climber {
      * @return  The height from the specified point.
      */
     private double getHeightForPoint(Point p) {
-        return data.get(p.x).get(p.y);
-    }
-
-    /**
-     * Gets the value from the raw data for the specified coordinates.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @return  The height from the specified coordinates.
-     */
-    private double getHeight(int x, int y) {
-        return data.get(x).get(y);
+        if(p.x >= data.size() || p.x < 0) return 0;
+        else if(p.y >= data.get(p.x).size()) return data.get(p.x).get(p.y-3600);
+        else if(p.y < 0) return data.get(p.x).get(p.y+3600);
+        else return data.get(p.x).get(p.y);
     }
 }
