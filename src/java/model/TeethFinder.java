@@ -19,18 +19,23 @@ public class TeethFinder {
     private List<List<Double>> data;
 
     /** The distance between two points where searching will start at */
-    private int searchDistance = 23;
+    private int searchDistance;
 
     /** The minimum angle for a local maximum to be considered as a tooth */
-    private double angle = 59;
+    private double angle;
+
+    private double edgeAngle;
 
     /**
      * Creates a new instance of the TeethFinder.
      * Expects a 2d array of the raw data.
      * @param data The 2d array containing the raw data.
      */
-    public TeethFinder(List<List<Double>> data) {
+    public TeethFinder(List<List<Double>> data, int searchDistance, double angle, double edgeAngle) {
         this.data = data;
+        this.searchDistance = searchDistance;
+        this.angle = angle;
+        this.edgeAngle = edgeAngle;
     }
 
     /**
@@ -39,13 +44,13 @@ public class TeethFinder {
      * @return This object with the populated data of found teeth.
      */
     public TeethFinder find() {
-        Climber climber = new Climber(data);
+        Climber climber = new Climber(data, edgeAngle);
         for (int i = 0; i < data.size(); i = i + searchDistance) {
             for (int j = 0; j < data.get(i).size(); j = j + searchDistance) {
                 Point p = climber.start(new Point(i, j));
                 if (foundTeeth.stream().noneMatch(f ->
                         Math.abs(f.x - p.x) < searchDistance && Math.abs(f.y - p.y) < searchDistance)
-                        && climber.getSharpness() < angle) {
+                        && climber.sharpEnough(angle)) {
                     foundTeeth.add(p);
                 }
             }
@@ -61,3 +66,4 @@ public class TeethFinder {
         return foundTeeth;
     }
 }
+

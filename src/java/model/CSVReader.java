@@ -3,6 +3,7 @@ package model;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -97,4 +98,20 @@ public class CSVReader {
     public int getColumnNumbers() {
         return data.get(0).size();
     }
+
+    public static void writeToCsv(Set<Point> points, String fileName) throws IOException {
+        FileWriter csvWriter = new FileWriter(fileName);
+        csvWriter.append("x");
+        csvWriter.append(",");
+        csvWriter.append("y");
+        csvWriter.append(",");
+        csvWriter.append("height");
+        csvWriter.append("\n");
+        for (Point p : points) {
+            csvWriter.append(String.valueOf(p.x)).append(", ").append(String.valueOf(p.y));
+        }
+        csvWriter.flush();
+        csvWriter.close();
+    }
 }
+

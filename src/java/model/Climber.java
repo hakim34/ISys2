@@ -13,11 +13,14 @@ class Climber {
      */
     private List<List<Double>> data;
 
+    private double edgeAngle;
+
     /* the local maximum found */
     private Point peak;
 
-    Climber(List<List<Double>> data) {
+    Climber(List<List<Double>> data, double edgeAngle) {
         this.data = data;
+        this.edgeAngle = edgeAngle;
     }
 
     Point start(Point start) {
@@ -40,7 +43,7 @@ class Climber {
      * Gets the average angle of the peak with respect to the (if applicable) four-way points in its surroundings
      * @return average angle.
      */
-    double getSharpness() {
+    boolean sharpEnough(double angle) {
         int distance = 10;
         int i = 0;
 
@@ -49,15 +52,15 @@ class Climber {
         Point point3 = new Point(peak.x-distance, peak.y+distance);
         Point point4 = new Point(peak.x+distance, peak.y+distance);
 
-        if(getSharpness(point1) != 0) i++;
-        if(getSharpness(point2) != 0) i++;
-        if(getSharpness(point3) != 0) i++;
-        if(getSharpness(point4) != 0) i++;
+        if(getSharpness(point1) >= edgeAngle) return false;
+        if(getSharpness(point2) >= edgeAngle) return false;
+        if(getSharpness(point3) >= edgeAngle) return false;
+        if(getSharpness(point4) >= edgeAngle) return false;
 
         return (getSharpness(point1) +
                 getSharpness(point2) +
                 getSharpness(point3) +
-                getSharpness(point4))/i;
+                getSharpness(point4))/4 < angle;
     }
 
     /**
@@ -70,7 +73,7 @@ class Climber {
         int y = startingPoint.y;
 
         int startPosX = (x - 1 < 0) ? x : x-1;
-        int startPosY = (y - 1 < 0) ? y : y-1;
+        int startPosY = (y - 1 < 0) ? y: y-1;
         int endPosX =   (x + 1 > data.size() -1) ? x : x+1;
         int endPosY =   (y + 1 > data.get(0).size() - 1) ? y : y+1;
 
@@ -100,3 +103,4 @@ class Climber {
         else return data.get(p.x).get(p.y);
     }
 }
+

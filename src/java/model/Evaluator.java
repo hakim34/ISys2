@@ -8,13 +8,15 @@ public class Evaluator {
     private double recall;
     private double precision;
     private double fScore;
+    private static double tolerance;
 
     private Set<Point> labels;
     private Set<Point> found;
 
-    public Evaluator(Set<Point> labels, Set<Point> found) {
+    public Evaluator(Set<Point> labels, Set<Point> found, double tolerance) {
         this.labels = labels;
         this.found = found;
+        Evaluator.tolerance = tolerance;
 
         calculatePrecision();
         calculateRecall();
@@ -55,7 +57,6 @@ public class Evaluator {
         double ac = Math.abs(a.x - b.x);
         double cb = Math.abs(a.y - b.y);
 
-        double tolerance = 10.0;
         return Math.hypot(ac, cb) < tolerance;
     }
 
@@ -83,3 +84,4 @@ public class Evaluator {
         return intersection(labels, found).size();
     }
 }
+
