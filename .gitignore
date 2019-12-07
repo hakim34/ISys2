@@ -1,5 +1,5 @@
 # Project exclude paths
 /target/
 /.idea
-/src/main/main.resources
+/resources/
 ISys2.iml

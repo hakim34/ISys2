@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * This class reads the required csv files and fills the corresponding data structures or later use elsewhere
+ * This class reads the required csv files and fills the corresponding data structures for later use elsewhere
  */
 public class CSVReader {
 
@@ -91,21 +91,32 @@ public class CSVReader {
         return data;
     }
 
+    /**
+     * Getter for the number of rows in the raw data
+     * @return The number of rows in the raw data
+     */
     public int getRowNumbers() {
         return data.size();
     }
 
+    /**
+     * Getter for the number of columns in the raw data
+     * @return The number of columns in the raw data
+     */
     public int getColumnNumbers() {
         return data.get(0).size();
     }
 
+    /**
+     * Writes the given Set of found teeth to a CSV file
+     * @param fileName  The name of the file to be created
+     * @param points    The Set containing points of found teeth
+     */
     public static void writeToCsv(Set<Point> points, String fileName) throws IOException {
         FileWriter csvWriter = new FileWriter(fileName);
         csvWriter.append("x");
         csvWriter.append(",");
         csvWriter.append("y");
-        csvWriter.append(",");
-        csvWriter.append("height");
         csvWriter.append("\n");
         for (Point p : points) {
             csvWriter.append(String.valueOf(p.x)).append(", ").append(String.valueOf(p.y)).append("\n");
