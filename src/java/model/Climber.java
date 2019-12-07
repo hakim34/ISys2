@@ -43,14 +43,11 @@ class Climber {
      * Gets the average angle of the peak with respect to the (if applicable) four-way points in its surroundings
      * @return average angle.
      */
-    boolean sharpEnough(double angle) {
-        int distance = 10;
-        int i = 0;
-
-        Point point1 = new Point(peak.x-distance, peak.y-distance);
-        Point point2 = new Point(peak.x+distance, peak.y-distance);
-        Point point3 = new Point(peak.x-distance, peak.y+distance);
-        Point point4 = new Point(peak.x+distance, peak.y+distance);
+    boolean sharpEnough(double angle, int teethRadius) {
+        Point point1 = new Point(peak.x- teethRadius, peak.y- teethRadius);
+        Point point2 = new Point(peak.x+ teethRadius, peak.y- teethRadius);
+        Point point3 = new Point(peak.x- teethRadius, peak.y+ teethRadius);
+        Point point4 = new Point(peak.x+ teethRadius, peak.y+ teethRadius);
 
         if(getSharpness(point1) >= edgeAngle) return false;
         if(getSharpness(point2) >= edgeAngle) return false;

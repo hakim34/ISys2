@@ -8,13 +8,13 @@ public class Runner {
 
     public static void main(String[] args) throws IOException {
         CSVReader csv = new CSVReader().labels("src/resources/labels0.csv").data("src/resources/data0.csv"); //20 64 75
-        TeethFinder finder = new TeethFinder(csv.getData(), 16, 63, 73).find();
+        TeethFinder finder = new TeethFinder(csv.getData(), 25, 64, 76, 14).find();
         Evaluator e = new Evaluator(csv.getLabels(), finder.getFoundTeeth(), 10);
         CSVReader.writeToCsv(finder.getFoundTeeth(), "foundall.csv");
         printResults(csv, e);
 
         CSVReader csv2 = new CSVReader().labels("src/resources/labels1.csv").data("src/resources/data1.csv");
-        TeethFinder finder2 = new TeethFinder(csv2.getData(), 20, 64, 75).find();
+        TeethFinder finder2 = new TeethFinder(csv2.getData(), 25, 64, 76, 14).find();
         Evaluator e2 = new Evaluator(csv2.getLabels(), finder2.getFoundTeeth(), 10);
         CSVReader.writeToCsv(finder2.getFoundTeeth(), "foundall2.csv");
         System.out.println("\nSecond datasets: \n");

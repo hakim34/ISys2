@@ -26,16 +26,19 @@ public class TeethFinder {
 
     private double edgeAngle;
 
+    private int teethRadius;
+
     /**
      * Creates a new instance of the TeethFinder.
      * Expects a 2d array of the raw data.
      * @param data The 2d array containing the raw data.
      */
-    public TeethFinder(List<List<Double>> data, int searchDistance, double angle, double edgeAngle) {
+    public TeethFinder(List<List<Double>> data, int searchDistance, double angle, double edgeAngle, int teethRadius) {
         this.data = data;
         this.searchDistance = searchDistance;
         this.angle = angle;
         this.edgeAngle = edgeAngle;
+        this.teethRadius = teethRadius;
     }
 
     /**
@@ -50,7 +53,7 @@ public class TeethFinder {
                 Point p = climber.start(new Point(i, j));
                 if (foundTeeth.stream().noneMatch(f ->
                         Math.abs(f.x - p.x) < searchDistance && Math.abs(f.y - p.y) < searchDistance)
-                        && climber.sharpEnough(angle)) {
+                        && climber.sharpEnough(angle, teethRadius)) {
                     foundTeeth.add(p);
                 }
             }
