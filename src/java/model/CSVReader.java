@@ -108,7 +108,7 @@ public class CSVReader {
         csvWriter.append("height");
         csvWriter.append("\n");
         for (Point p : points) {
-            csvWriter.append(String.valueOf(p.x)).append(", ").append(String.valueOf(p.y));
+            csvWriter.append(String.valueOf(p.x)).append(", ").append(String.valueOf(p.y)).append("\n");
         }
         csvWriter.flush();
         csvWriter.close();
