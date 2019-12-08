@@ -34,7 +34,7 @@ class Climber {
 
     /**
      * Finds the peak in the vicinity of the start point
-     * Start point below a height of 150 will be ignored
+     * Start point below the minimum height will be ignored
      * @param start The start point of the search
      * @return The local maximum
      */
