@@ -52,7 +52,7 @@ public class TeethFinder {
                 if (foundTeeth.stream().noneMatch(f ->
                         Math.abs(f.x - p.x) < teethRadius
                             && Math.abs(f.y - p.y) < teethRadius)
-                            && sharpEnough(p, angle, teethRadius)) {
+                            && fitsSharpness(p, angle, teethRadius)) {
                     foundTeeth.add(p);
                 }
             }
@@ -73,11 +73,12 @@ public class TeethFinder {
 
     /**
      * Gets the average angle of the peak with respect to the (if applicable) four-way points in its surroundings
+     * and compares it to the maximum gradient of a tooth.
      * @param angle         The maximum gradient a teeth should have
      * @param teethRadius   The minimum radius of a teeth
      * @return              True if the angles of the found peak match a teeth
      */
-    private boolean sharpEnough(Point peak, double angle, int teethRadius) {
+    private boolean fitsSharpness(Point peak, double angle, int teethRadius) {
         Point point1 = new Point(peak.x - teethRadius, peak.y - teethRadius);
         Point point2 = new Point(peak.x + teethRadius, peak.y - teethRadius);
         Point point3 = new Point(peak.x - teethRadius, peak.y + teethRadius);
