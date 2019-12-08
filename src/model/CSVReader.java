@@ -67,15 +67,6 @@ public class CSVReader {
     }
 
     /**
-     * Throws away some data and corresponding labels.
-     * @param keep  The ratio of the data to keep.
-     * @return      This object with the changed data.
-     */
-    public CSVReader slice(double keep) {
-        return this;
-    }
-
-    /**
      * Getter for the list containing the labels
      * @return  The list containing the labels
      */
