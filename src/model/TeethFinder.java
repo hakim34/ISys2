@@ -37,12 +37,11 @@ public class TeethFinder {
      * @param searchDistance The distance between two points where searching will start at
      * @param angle          The minimum angle for a local maximum to be considered as a tooth
      * @param teethRadius    The minimum radius of a teeth
-     * @param step           The steps we take when climbing uphill
      * @param minimumHeight  The minimum height at which we search for teeth. This is used to filter the very edges  of the data.
      * @return This object with the populated data of found teeth.
      */
-    public TeethFinder find(int searchDistance, double angle, int teethRadius, int step, int minimumHeight) {
-        Climber climber = new Climber(data, step, minimumHeight);
+    public TeethFinder find(int searchDistance, double angle, int teethRadius, int minimumHeight) {
+        Climber climber = new Climber(data, searchDistance, minimumHeight);
         for (int i = 0; i < data.size(); i = i + searchDistance) {
             for (int j = 0; j < data.get(i).size(); j = j + searchDistance) {
                 Point p = climber.start(new Point(i, j));

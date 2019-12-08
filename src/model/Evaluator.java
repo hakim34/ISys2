@@ -149,5 +149,11 @@ public class Evaluator {
     public int numberOfCorrectTeeth() {
         return intersection(labels, found).size();
     }
+
+    /**
+     * Getter for the set of teeth that are correctly found
+     * @return The set of correctly found teeth
+     */
+    public Set<Point> getCorrectTeeth() { return intersection(labels, found); }
 }
 

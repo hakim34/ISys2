@@ -16,19 +16,21 @@ public class Runner {
      */
     public static void main(String[] args) throws IOException {
         // First data set
-        CSVReader csv = new CSVReader().labels("resources/labels0.csv").data("resources/data0.csv");
+        CSVReader csv = new CSVReader().labels("/Users/hakim.id/Documents/ISys2New/src/resources/labels0.csv").data("/Users/hakim.id/Documents/ISys2New/src/resources/data0.csv");
         TeethFinder finder = new TeethFinder(csv.getData())
-                .find(18, 71, 14, 15, 150);
-        Evaluator e = new Evaluator(csv.getLabels(), finder.getFoundTeeth(), 15);
+                .find(14, 71, 14, 181);
+        Evaluator e = new Evaluator(csv.getLabels(), finder.getFoundTeeth(), 5);
         CSVReader.writeToCsv(finder.getFoundTeeth(), "foundall.csv");
+        CSVReader.writeToCsv(e.getCorrectTeeth(), "correctTeeth.csv");
         printResults(csv, e);
 
         // Second data set
-        CSVReader csv2 = new CSVReader().labels("resources/labels1.csv").data("resources/data1.csv");
+        CSVReader csv2 = new CSVReader().labels("/Users/hakim.id/Documents/ISys2New/src/resources/labels1.csv").data("/Users/hakim.id/Documents/ISys2New/src/resources/data1.csv");
         TeethFinder finder2 = new TeethFinder(csv2.getData())
-                .find(18, 71, 14, 15, 150);
-        Evaluator e2 = new Evaluator(csv2.getLabels(), finder2.getFoundTeeth(), 15);
+                .find(14, 71, 14, 181);
+        Evaluator e2 = new Evaluator(csv2.getLabels(), finder2.getFoundTeeth(), 5);
         CSVReader.writeToCsv(finder2.getFoundTeeth(), "foundall2.csv");
+        CSVReader.writeToCsv(e2.getCorrectTeeth(), "correctTeeth2.csv");
         System.out.println("\nSecond data set: \n");
         printResults(csv2, e2);
     }
