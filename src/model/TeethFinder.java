@@ -50,8 +50,8 @@ public class TeethFinder {
                 }
                 // Only add a found peak if it is unique and qualifies as a teeth
                 if (foundTeeth.stream().noneMatch(f ->
-                        Math.abs(f.x - p.x) < searchDistance
-                            && Math.abs(f.y - p.y) < searchDistance)
+                        Math.abs(f.x - p.x) < teethRadius
+                            && Math.abs(f.y - p.y) < teethRadius)
                             && sharpEnough(p, angle, teethRadius)) {
                     foundTeeth.add(p);
                 }
