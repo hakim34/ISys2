@@ -22,6 +22,7 @@ public class Runner {
         Evaluator e = new Evaluator(csv.getLabels(), finder.getFoundTeeth(), 5);
         CSVReader.writeToCsv(finder.getFoundTeeth(), "foundall.csv");
         CSVReader.writeToCsv(e.getCorrectTeeth(), "correctTeeth.csv");
+        System.out.println("First data set: \n");
         printResults(csv, e);
 
         // Second data set
