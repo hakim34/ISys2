@@ -77,7 +77,7 @@ public class TeethFinder {
      * @param teethRadius   The minimum radius of a teeth
      * @return              True if the angles of the found peak match a teeth
      */
-    boolean sharpEnough(Point peak, double angle, int teethRadius) {
+    private boolean sharpEnough(Point peak, double angle, int teethRadius) {
         Point point1 = new Point(peak.x - teethRadius, peak.y - teethRadius);
         Point point2 = new Point(peak.x + teethRadius, peak.y - teethRadius);
         Point point3 = new Point(peak.x - teethRadius, peak.y + teethRadius);
